@@ -1,0 +1,37 @@
+{
+  "contentSchema":"universes",
+  "contentSchemaVersion":"0.1",
+  "content": [
+    {
+      "_lipProcess" :{
+        "_visibility": {
+          "_rule": "offerStateMatch",
+          "_params": ["1=Available"]
+        }
+
+      },
+      "type": "sass",
+      "railType": "landscape",
+      "title": "Offer 1 is available to purchase",
+      "description": ""
+    },
+
+    {
+
+      "type": "sass",
+      "railType": "landscape",
+      "title": "Ready to play your favorite games",
+      "description": "",
+      "list" : [
+        {
+          "_lipProcess" :{
+            "_populate": {
+              "_api": "favorites",
+              "_max": 2
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
