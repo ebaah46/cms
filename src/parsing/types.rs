@@ -15,6 +15,15 @@ pub struct Populator {
     pub params: Vec<String>,
     pub limit: u8,
 }
+impl Populator {
+    pub fn new(api: PopulatorTypes, params: Vec<String>, limit: Option<u8>) -> Self {
+        Self {
+            api,
+            params,
+            limit,
+        }
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VisibilityRule {
@@ -23,11 +32,21 @@ pub struct VisibilityRule {
     has_match: bool,
 }
 
+impl VisibilityRule {
+    pub fn new (rule: VisibilityRuleTypes, params: Vec<String>) -> Self {
+        Self {
+            rule,
+            params,
+            has_match: false
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Directive {
-    Populator,
-    VisibilityRule,
-    Unknown
+    PopulatorDirective(Populator),
+    VisibilityDirective(VisibilityRule),
+    Unknown(String)
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
