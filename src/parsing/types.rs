@@ -54,11 +54,39 @@ pub enum PopulatorTypes {
     Unknown(String)
 }
 
+impl PopulatorTypes {
+    pub fn from_str(s: &str) -> Self {
+
+        match s {
+            "userFavoriteGames" => Self::UserFavoriteGames,
+            "mostPlayedGames" => Self::MostPlayedGames,
+            "userMostPlayedGames" => Self::UserMostPlayedGames,
+            "recommendedGames" => Self::RecommendedGames,
+            "subscriptionOffers" => Self::SubscriptionOffers,
+            "listGames" => Self::ListGames(String::new()),
+            "categories" => Self::Categories,
+            "backendGames" => Self::BackendGames(String::new()),
+            _ => Self::Unknown(s.to_string())
+        }
+    }
+}
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum VisibilityRuleTypes {
     OfferStateMatch,
     ClientProfileMatch,
-    UserPropertyMatch
+    UserPropertyMatch,
+    Unknown(String)
+}
+
+impl VisibilityRuleTypes {
+    pub fn from_str(s: &str) -> Self {
+        match s {
+            "offerStateMatch" => Self::OfferStateMatch,
+            "clientProfileMatch" => Self::ClientProfileMatch,
+            "userPropertyMatch" => Self::UserPropertyMatch,
+            _ => Self::Unknown(s.to_string())
+        }
+    }
 }
 
 
