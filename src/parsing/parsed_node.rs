@@ -24,6 +24,10 @@ impl ParsedNode {
             source: String::new(),
         }
     }
+    
+    pub fn add_block(&mut self, block: ParsedBlock) {
+        self.blocks.push(block);
+    }
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ParsedBlock {
@@ -38,35 +42,30 @@ impl ParsedBlock {
     pub fn new()-> Self {
         Self{
             path: None,
-            directive: Directive::Unknown,
+            directive: Directive::Unknown("".into()),
             can_update: false,
             processed: false,
             updated_by: DependencyType::Unknown,
         }
     }
 
-    pub fn path(mut self, path: String) -> Self {
+    pub fn path(&mut self, path: String) {
         self.path = Some(path);
-        self
     }
 
-    pub fn directive(mut self, directive: Directive) -> Self {
+    pub fn directive(&mut self, directive: Directive) {
         self.directive = directive;
-        self
     }
 
-    pub fn can_update(mut self, can_update: bool) -> Self {
+    pub fn can_update(&mut self, can_update: bool) {
         self.can_update = can_update;
-        self
     }
 
-    pub fn processed(mut self, processed: bool) -> Self {
+    pub fn processed(mut self, processed: bool) {
         self.processed = processed;
-        self
     }
 
-    pub fn updated_by(mut self, updated_by: DependencyType) -> Self {
+    pub fn updated_by(mut self, updated_by: DependencyType) {
         self.updated_by = updated_by;
-        self
     }
 }

@@ -13,7 +13,7 @@ use serde::{Serialize, Deserialize};
 pub struct Populator {
     pub api: PopulatorTypes,
     pub params: Vec<String>,
-    pub limit: u8,
+    pub limit: Option<u8>,
 }
 impl Populator {
     pub fn new(api: PopulatorTypes, params: Vec<String>, limit: Option<u8>) -> Self {
