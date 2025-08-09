@@ -5,12 +5,8 @@ use std::str::FromStr;
 // Author: BEKs <ebaah72@gmail.com>
 // Created: 06/08/2025
 // ===========================================================
-#[macro_use]
 
-
-use serde::{Serialize, Deserialize};
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
 pub struct Populator {
     pub api: PopulatorTypes,
     pub params: Vec<String>,
@@ -26,7 +22,7 @@ impl Populator {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
 pub struct VisibilityRule {
     pub rule: VisibilityRuleTypes,
     pub params: Vec<String>,
@@ -43,14 +39,14 @@ impl VisibilityRule {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
 pub enum Directive {
     PopulatorDirective(Populator),
     VisibilityDirective(VisibilityRule),
     Unknown(String)
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug)]
 pub enum DependencyType {
     Favorites,
     Subscriptions,
@@ -61,7 +57,7 @@ pub enum DependencyType {
 }
 
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
 pub enum PopulatorTypes {
     UserFavoriteGames,
     MostPlayedGames,
@@ -90,7 +86,7 @@ impl PopulatorTypes {
         }
     }
 }
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug)]
 pub enum VisibilityRuleTypes {
     OfferStateMatch,
     ClientProfileMatch,

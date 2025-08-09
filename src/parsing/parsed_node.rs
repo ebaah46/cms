@@ -5,11 +5,10 @@
 // Created: 06/08/2025
 // ===========================================================
 
-use serde::{Deserialize, Serialize};
 use crate::parsing::types::Directive;
 use crate::parsing::types::DependencyType;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone)]
 pub struct ParsedNode {
     pub name: String,
     pub blocks: Vec<ParsedBlock>,
@@ -24,12 +23,17 @@ impl ParsedNode {
             source: String::new(),
         }
     }
-    
+
     pub fn add_block(&mut self, block: ParsedBlock) {
         self.blocks.push(block);
     }
+    
+    pub fn add_name(&mut self, name: &str) {
+        self.name = name.to_string();
+    }
 }
-#[derive(Debug, Clone, Serialize, Deserialize)]
+
+#[derive(Debug, Clone)]
 pub struct ParsedBlock {
     pub path : Option<String>,
     pub directive: Directive,
