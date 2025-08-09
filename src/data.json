@@ -3,7 +3,7 @@
   "contentSchemaVersion":"0.1",
   "content": [
     {
-      "_lipProcess" :{
+      "_libProcess" :{
         "_visibility": {
           "_rule": "offerStateMatch",
           "_params": ["1=Available"]
@@ -24,7 +24,7 @@
       "description": "",
       "list" : [
         {
-          "_lipProcess" :{
+          "_libProcess" :{
             "_populate": {
               "_api": "favorites",
               "_max": 2

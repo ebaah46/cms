@@ -1,10 +1,11 @@
-use std::io::Error;
 // ===========================================================
 // File: content_parser.rs
 // Description: 
 // Author: BEKs <ebaah72@gmail.com>
 // Created: 05/08/2025
 // ===========================================================
+
+
 use crate::parsing::parsed_node::{ParsedBlock, ParsedNode};
 use serde_json::Value;
 use crate::parsing::types::{Directive, Populator, PopulatorTypes, VisibilityRule, VisibilityRuleTypes};
@@ -13,9 +14,8 @@ use regex::Regex;
 pub fn parse_content(json_string: String) -> Result<ParsedNode, Box<dyn std::error::Error>> {
     let root :Value = serde_json::from_str(&json_string)?;
     let mut node = ParsedNode::new();
-    
+
     if let Some(content) = root["content"].as_array() {
-        
         for (index,item) in content.iter().enumerate() {
             // check outer layer for processable directives
             if let Some(vr) = parse_visibility_rule(item) {
@@ -24,27 +24,36 @@ pub fn parse_content(json_string: String) -> Result<ParsedNode, Box<dyn std::err
                 block.path(format!("/content/{}", index));
                 node.add_block(block);
             }
-            if let Some(populator) = parse_populator(item).ok() {
+            if let Some(populator) = parse_populator(item).ok() { //discard error state
                 let mut block = ParsedBlock::new();
                 block.directive(populator);
                 block.path(format!("/content/{}", index));
                 node.add_block(block);
             }
-                                        
             // enter inner lists for possible processors
             if item.as_object().is_some() {
                 let list = item.get("list").and_then(Value::as_array);
                 list.map(|values| {
-                    values.iter().for_each(|v| {
-                        
-                    })
+                    for (i, v) in values.iter().enumerate(){
+                        if let Some(vr) = parse_visibility_rule(v) {
+                            let mut block = ParsedBlock::new();
+                            block.directive(vr);
+                            block.path(format!("/content/list/{}", i));
+                            node.add_block(block);
+                        }
+
+                        if let Some(populator) = parse_populator(v).ok() {
+                            let mut block = ParsedBlock::new();
+                            block.directive(populator);
+                            block.path(format!("/content/list/{}", i));
+                            node.add_block(block);
+                        }
+                    }
                 });
             }
         }
     }
-
-
-    Ok(ParsedNode::new())
+    Ok(node)
 }
 
 fn parse_visibility_rule(json: &Value) -> Option<Directive> {
@@ -81,7 +90,9 @@ fn parse_populator(json: &Value) -> Result<Directive,Box<dyn std::error::Error>>
         let mut api_param: Vec<String> = vec![];
         if let Some(caps) = caps {
             api_name = caps[1].to_string();
-            api_param.push(caps[2].to_string());
+            if let Some(param) = caps.get(2).map(|v| v.as_str()) {
+                api_param.push(param.to_string());
+            }
         }
         let limit = json.pointer("/_libProcess/_visibility/_max")
             .and_then(|v| v.as_number())
