@@ -87,12 +87,10 @@ fn parse_populator(json: &Value) -> Result<Directive,Box<dyn std::error::Error>>
         let re = Regex::new(r"^([^\(]+)(?:\(([^)]*)\))?$")?;
         let caps = re.captures(r);
         let mut api_name = String::new();
-        let mut api_param: Vec<String> = vec![];
+        let mut api_param : Option<String> =  None;
         if let Some(caps) = caps {
             api_name = caps[1].to_string();
-            if let Some(param) = caps.get(2).map(|v| v.as_str()) {
-                api_param.push(param.to_string());
-            }
+            api_param = caps.get(2).map(|v| v.as_str().to_string())
         }
         let limit = json.pointer("/_libProcess/_visibility/_max")
             .and_then(|v| v.as_number())

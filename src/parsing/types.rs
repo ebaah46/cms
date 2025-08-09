@@ -9,11 +9,11 @@ use std::str::FromStr;
 #[derive(Debug, Clone)]
 pub struct Populator {
     pub api: PopulatorTypes,
-    pub params: Vec<String>,
+    pub params: Option<String>,
     pub limit: Option<u8>,
 }
 impl Populator {
-    pub fn new(api: PopulatorTypes, params: Vec<String>, limit: Option<u8>) -> Self {
+    pub fn new(api: PopulatorTypes, params: Option<String>, limit: Option<u8>) -> Self {
         Self {
             api,
             params,
