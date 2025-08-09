@@ -64,10 +64,10 @@ pub enum PopulatorTypes {
     UserMostPlayedGames,
     RecommendedGames,
     SubscriptionOffers,
-    ListGames(String),
+    ListGames,
     Categories,
-    BackendGames(String),
-    Unknown(String)
+    BackendGames,
+    Unknown
 }
 
 impl PopulatorTypes {
@@ -79,10 +79,10 @@ impl PopulatorTypes {
             "userMostPlayedGames" => Self::UserMostPlayedGames,
             "recommendedGames" => Self::RecommendedGames,
             "subscriptionOffers" => Self::SubscriptionOffers,
-            "listGames" => Self::ListGames(String::new()),
+            "listGames" => Self::ListGames,
             "categories" => Self::Categories,
-            "backendGames" => Self::BackendGames(String::new()),
-            _ => Self::Unknown(s.to_string())
+            "backendGames" => Self::BackendGames,
+            _ => Self::Unknown
         }
     }
 }
